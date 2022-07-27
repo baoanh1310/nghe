@@ -13,10 +13,11 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: AppColors.secondColor,
+      backgroundColor: AppColors.lightBlue,
       appBar: AppBar(
-        backgroundColor: AppColors.secondColor,
+        backgroundColor: AppColors.lightBlue,
         elevation: 0,
         title: Text(
           'Nghệ',
@@ -29,10 +30,31 @@ class _HomePageState extends State<HomePage> {
       ),
       body: Container(
         width: double.infinity,
+        margin: const EdgeInsets.symmetric(horizontal: 24),
         child: Column(
           children: [
-            Text(
-              "Icebear test text",
+            Container(
+              height: size.height * 1/10,
+              padding: const EdgeInsets.all(16),
+              alignment: Alignment.centerLeft,
+              child: Text(
+                "Icebear test text",
+                style: AppStyles.h5.copyWith(fontSize: 14, color: AppColors.textColor)
+              ),
+            ),
+            Container(
+              height: size.height * 3/5,
+              child: PageView.builder(
+                itemCount: 5,
+                itemBuilder: (context, index) {
+                  return Container(
+                    decoration: BoxDecoration(
+                      color: AppColors.primaryColor,
+                      borderRadius: BorderRadius.all(Radius.circular(24)),
+                    ),
+                  );
+                },
+              ),
             )
           ],
         )

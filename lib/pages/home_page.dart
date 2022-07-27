@@ -11,6 +11,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  int _currentIndex = 0;
+  PageController _pageController = PageController();
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -45,17 +47,101 @@ class _HomePageState extends State<HomePage> {
             Container(
               height: size.height * 3/5,
               child: PageView.builder(
+                controller: _pageController,
+                onPageChanged: (index) {
+                  setState(() {
+                    _currentIndex = index;                    
+                  });
+                },
                 itemCount: 5,
                 itemBuilder: (context, index) {
-                  return Container(
-                    decoration: BoxDecoration(
-                      color: AppColors.primaryColor,
-                      borderRadius: BorderRadius.all(Radius.circular(24)),
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      padding: const EdgeInsets.all(16),
+                      margin: const EdgeInsets.symmetric(vertical: 16),
+                      decoration: BoxDecoration(
+                        color: AppColors.primaryColor,
+                        borderRadius: BorderRadius.all(Radius.circular(24)),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black26,
+                            offset: Offset(3, 6),
+                            blurRadius: 6
+                          )
+                        ]
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            alignment: Alignment.centerRight,
+                            child: Image.asset(AppAssets.heart)
+                          ),
+                          RichText(
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            textAlign: TextAlign.start,
+                            text: TextSpan(
+                              text: 'N',
+                              style: TextStyle(
+                                fontFamily: FontFamily.sen,
+                                fontSize: 89,
+                                fontWeight: FontWeight.bold,
+                                shadows: [
+                                  BoxShadow(
+                                    color: Colors.black38,
+                                    offset: Offset(3, 6),
+                                    blurRadius: 6
+                                  )
+                                ]
+                              ),
+                              children: [
+                                TextSpan(
+                                  text: 'ghệ',
+                                  style: TextStyle(
+                                    fontFamily: FontFamily.sen,
+                                    fontSize: 56,
+                                    fontWeight: FontWeight.bold,
+                                    shadows: [
+                                      BoxShadow(
+                                        color: Colors.black38,
+                                        offset: Offset(3, 6),
+                                        blurRadius: 6
+                                      )
+                                    ]
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 24),
+                            child: Text(
+                              '"THÂN - TÂM - TUỆ"',
+                              style: AppStyles.h4.copyWith(letterSpacing: 1, color: AppColors.textColor),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   );
                 },
               ),
-            )
+            ),
+            // Indicator
+            Container(
+              height: 12,
+              margin: const EdgeInsets.symmetric(vertical: 12),
+              child: ListView.builder(
+                physics: NeverScrollableScrollPhysics(),
+                scrollDirection: Axis.horizontal,
+                itemCount: 5,
+                itemBuilder: (context, index) {
+                  return buildIndicator(index == _currentIndex, size);
+                }
+              ),
+            ),
           ],
         )
       ),
@@ -65,6 +151,25 @@ class _HomePageState extends State<HomePage> {
 
         },
         child: Image.asset(AppAssets.exchange),
+      ),
+    );
+  }
+
+  Widget buildIndicator(bool isActive, Size size) {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 16),
+      height: 8,
+      width: isActive ? size.width * 1 / 5 : 24,
+      decoration: BoxDecoration(
+        color: isActive ? AppColors.primaryColor : AppColors.lightGrey,
+        borderRadius: BorderRadius.all(Radius.circular(12)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black38,
+            offset: Offset(2, 3),
+            blurRadius: 3
+          )
+        ]
       ),
     );
   }
